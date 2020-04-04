@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter import ttk
 import random
-from sortingAlgorithms import bubbleSortPlus
+from sortingAlgorithms import bubbleSort, bubbleSortPlus
 
 
 root = Tk()
@@ -50,7 +50,11 @@ def Generate():
 
 def startAlgorithm():
 	global data
-	bubbleSortPlus(data, drawData, speedScale.get())
+	if selected_alg.get() == "Bubble Sort":
+		bubbleSort(data, drawData, speedScale.get())
+	if selected_alg.get() == "Bubble Sort Plus":
+		bubbleSortPlus(data, drawData, speedScale.get())
+	print(selected_alg.get())
 
 #frame loyout
 UI_frame = Frame(root, width=600, height=200, bg='grey')

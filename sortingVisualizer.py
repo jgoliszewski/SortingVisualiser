@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import ttk
 import random
+from sortingAlgorithms import bubbleSort
 
 
 root = Tk()
@@ -12,7 +13,9 @@ root.config(bg='black')
 algorithms = ['Bubble Sort','Merge Sort']
 selected_alg = StringVar()
 data = []
-def drawData(data):
+
+#functions
+def drawData(data, colorArray):
 	canvas.delete('all')
 	canvas_height = 380
 	canvas_width = 600
@@ -28,8 +31,11 @@ def drawData(data):
 		x1 = (i + 1) * x_width + offset
 		y1 = canvas_height
  
-		canvas.create_rectangle(x0, y0, x1, y1, fill='red')
+		canvas.create_rectangle(x0, y0, x1, y1, fill=colorArray[i])
 		canvas.create_text(x0+x_width//3, y0, anchor=SW, text=str(data[i]))
+
+	root.update_idletasks()
+
 def Generate():
 	global data
 	minVal = int(minEntry.get())
@@ -40,10 +46,11 @@ def Generate():
 	for _ in range(size):
 		data.append(random.randrange(minVal, maxVal + 1))
 	
-	drawData(data)
+	drawData(data, ['red' for x in range(len(data))])
 
 def startAlgorithm():
 	global data
+	bubbleSort(data, drawData, speedScale.get())
 
 
 
@@ -63,14 +70,14 @@ algMenu = ttk.Combobox(UI_frame, textvariable=selected_alg, values=[alg for alg 
 algMenu.grid(row=0, column=1, padx=5, pady=5)
 algMenu.current(0)
 
-speedScale = Scale(UI_frame, from_=0.1, to=2.0,length=200, digits=2, resolution=0.2, orient=HORIZONTAL, label='Select speed')
+speedScale = Scale(UI_frame, from_=0.1, to=2.0,length=200, digits=2, resolution=0.1, orient=HORIZONTAL, label='Select speed')
 speedScale.grid(row=0, column=2, padx=5, pady=5)
 
-Button(UI_frame, text="Start", command=Generate, bg='red').grid(row=0, column=3, padx=5, pady=5)
+Button(UI_frame, text="Start", command=startAlgorithm, bg='red').grid(row=0, column=3, padx=5, pady=5)
 
 #Row[1]
 
-sizeEntry = Scale(UI_frame, from_=3, to=40, orient=HORIZONTAL, label='Data size')
+sizeEntry = Scale(UI_frame, from_=5, to=40, orient=HORIZONTAL, label='Data size')
 sizeEntry.grid(row=1, column=0, padx=5, pady=5)
 
 

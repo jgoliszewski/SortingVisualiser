@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter import ttk
 import random
-from sortingAlgorithms import bubbleSort
+from sortingAlgorithms import bubbleSortPlus
 
 
 root = Tk()
@@ -10,7 +10,7 @@ root.maxsize(900,600)
 root.config(bg='black')
 
 #variables
-algorithms = ['Bubble Sort','Merge Sort']
+algorithms = ['Bubble Sort','Bubble Sort Plus']
 selected_alg = StringVar()
 data = []
 
@@ -50,11 +50,7 @@ def Generate():
 
 def startAlgorithm():
 	global data
-	bubbleSort(data, drawData, speedScale.get())
-
-
-
-
+	bubbleSortPlus(data, drawData, speedScale.get())
 
 #frame loyout
 UI_frame = Frame(root, width=600, height=200, bg='grey')
@@ -77,9 +73,8 @@ Button(UI_frame, text="Start", command=startAlgorithm, bg='red').grid(row=0, col
 
 #Row[1]
 
-sizeEntry = Scale(UI_frame, from_=5, to=40, orient=HORIZONTAL, label='Data size')
+sizeEntry = Scale(UI_frame, from_=5, to=25, orient=HORIZONTAL, label='Data size')
 sizeEntry.grid(row=1, column=0, padx=5, pady=5)
-
 
 minEntry = Scale(UI_frame, from_=0, to=10, orient=HORIZONTAL, label='Min Value')
 minEntry.grid(row=1, column=1, padx=5, pady=5)

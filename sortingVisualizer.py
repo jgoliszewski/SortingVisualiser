@@ -22,7 +22,7 @@ green = '#00e30b'
 orange = '#ffa500'
 ownData = IntVar()
 randomData = IntVar()
-
+choice = 1
 #functions
 def drawData(data, colorArray, finished=False, pointer=-10, pivot=None, border=None):
 	canvas.delete('all')
@@ -112,10 +112,12 @@ def Generate():
 def startAlgorithm():
 	global data
 	if selected_alg.get() == "Bubble Sort":
-		bubbleSort(data, drawData, speedScale.get())
-	
+		bubbleSort(data, drawData, speedScale.get(), [])
+		drawData(data, [green for x in range(len(data))], finished=True)
+		
 	if selected_alg.get() == "Bubble Sort Plus":
-		bubbleSortPlus(data, drawData, speedScale.get())
+		bubbleSortPlus(data, drawData, speedScale.get(), [])
+		drawData(data, [green for x in range(len(data))], finished=True)
 
 	if selected_alg.get() == "Quick Sort":
 		quickSort(data, 0, len(data)-1, drawData, speedScale.get(),[])
@@ -141,7 +143,7 @@ algMenu = ttk.Combobox(UI_frame,
 					textvariable=selected_alg, 
 					values=[alg for alg in algorithms])
 algMenu.grid(row=0, columnspan=2, padx=5, pady=5, sticky=N)
-algMenu.current(2)
+algMenu.current(choice)
 
 speedScale = Scale(UI_frame,
 				from_=0.1,

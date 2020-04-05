@@ -41,19 +41,19 @@ def quickSortBorder(data, head, tail, drawData, timeTick, sort):
 		time.sleep(timeTick/2)
 		if data[i] < pivot:
 			swap(data, i, border, sort, tail, border, drawData, timeTick)
-			#data[i], data[border] = data[border], data[i]
 			drawData(data,[green if x in sort else 'red' for x in range(len(data))], False, i, tail, border)
 			time.sleep(timeTick/2)
 			border += 1
 	
 	swap(data, tail, border, sort, tail, border, drawData, timeTick, True)
 	sort.append(border)
-	sort.append(border)
+	if abs(tail - head) == 1:
+		sort.append(tail)
 
-	drawData(data,[green if x in sort else 'red' for x in range(len(data))], False, 0, tail, border)
+	drawData(data,[green if x in sort else 'red' for x in range(len(data))], False, -10, tail, border)
 	time.sleep(timeTick/2)
-	return border
 
+	return border
 
 
 def quickSort(data, head, tail, drawData, timeTick, sort):

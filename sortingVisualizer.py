@@ -20,6 +20,8 @@ font = ('Arial',15)
 
 green = '#00e30b'
 orange = '#ffa500'
+ownData = IntVar()
+randomData = IntVar()
 #functions
 def drawData(data, colorArray, finished=False, pointer=-10, pivot=None, border=None):
 	canvas.delete('all')
@@ -58,12 +60,28 @@ def Generate():
 	minVal = int(minEntry.get())
 	maxVal = int(maxEntry.get())
 	size = int(sizeEntry.get())
-	
 	data = []
-	for _ in range(size):
-		data.append(random.randrange(minVal, maxVal + 1))
-	
-	drawData(data, ['red' for x in range(len(data))])
+
+
+	if ownData.get():
+		checkDataRandom.deselect()
+	if ownData.get():
+		try:
+			data = [int(x) for x in dataOwn.get().split(', ')]
+		except:
+			try:
+				data = [int(x) for x in dataOwn.get().split(' ')]
+			except:
+				try:
+					data = [int(x) for x in dataOwn.get().split(',')]
+				except:
+					canvas.create_text(380, 130, text='Wrong data!',font=('Arial',50))
+	if randomData.get():
+		for _ in range(size):
+			data.append(random.randrange(minVal, maxVal + 1))
+
+	if data:
+		drawData(data, ['red' for x in range(len(data))])
 
 def startAlgorithm():
 	global data
@@ -92,13 +110,14 @@ algMenu = ttk.Combobox(UI_frame,
 	font = font,
 	textvariable=selected_alg, 
 	values=[alg for alg in algorithms])
-algMenu.grid(row=0, columnspan=2, padx=5, pady=5)
+algMenu.grid(row=0, columnspan=2, padx=5, pady=5, sticky=N)
 algMenu.current(2)
+
 
 speedScale = Scale(UI_frame,
 				from_=0.1,
-				to=2.0,
-				length=150,
+				to=3.0,
+				length=200,
 				digits=2, 
 				resolution=0.1,
 				orient=HORIZONTAL, 
@@ -107,7 +126,7 @@ speedScale = Scale(UI_frame,
 				relief='groove',
 				bg='white',
 				highlightbackground='black')
-speedScale.grid(row=0, column=2, padx=5, pady=5)
+speedScale.grid(row=0, column=2, columnspan=2, padx=5, pady=5)
 
 
 Button(UI_frame, 
@@ -116,9 +135,22 @@ Button(UI_frame,
 	justify='center',
 	command=startAlgorithm, 
 	bg='#00e30b',
-	).grid(row=0, column=3, padx=5, pady=5)
+	).grid(row=0, column=4, padx=5, pady=5)
 
 #Row[1]
+
+dataOwn = Entry(UI_frame, font=font)
+dataOwn.insert(END,'1, 2, 3 or 1,2,3 or 1 2 3 ')
+dataOwn.grid(row=0, columnspan=2, padx=5, pady=5, sticky=S)
+
+checkDataOwn = Checkbutton(UI_frame, bg='#a7a7a7',text='Your data', font=font, variable=ownData)
+checkDataOwn.grid(row=1, column=0, sticky=NW)
+
+
+checkDataRandom = Checkbutton(UI_frame, bg='#a7a7a7', text='Random data', font=font, variable=randomData)
+checkDataRandom.grid(row=1, column=0, padx=1, pady=1, sticky=SW)
+checkDataRandom.select()
+
 
 sizeEntry = Scale(UI_frame, 
 	from_=5, 
@@ -128,7 +160,7 @@ sizeEntry = Scale(UI_frame,
 	font=font,
 	bg='white',
 	highlightbackground='black')
-sizeEntry.grid(row=1, column=0, padx=5, pady=5)
+sizeEntry.grid(row=1, column=1, padx=5, pady=5, sticky=E)
 
 minEntry = Scale(UI_frame, 
 	from_=0, 
@@ -138,7 +170,7 @@ minEntry = Scale(UI_frame,
 	font=font,
 	bg='white',
 	highlightbackground='black')
-minEntry.grid(row=1, column=1, padx=5, pady=5, sticky=E)
+minEntry.grid(row=1, column=2, padx=5, pady=5, sticky=E)
 
 maxEntry = Scale(UI_frame, 
 	from_=10, 
@@ -148,13 +180,13 @@ maxEntry = Scale(UI_frame,
 	font=font,
 	bg='white',
 	highlightbackground='black')
-maxEntry.grid(row=1, column=2, padx=5, pady=5)
+maxEntry.grid(row=1, column=3, padx=5, pady=5)
 
 Button(UI_frame, 
 	text="Generate", 
 	command=Generate, 
 	bg='#15b4ea', 
 	font=font
-	).grid(row=1, column=3, padx=5, pady=5)
+	).grid(row=1, column=4, padx=5, pady=5)
 
 root.mainloop()

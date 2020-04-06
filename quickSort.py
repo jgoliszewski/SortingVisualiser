@@ -29,6 +29,7 @@ def quickSortBorder(data, head, tail, drawData, timeTick, sort):
 
 
 def quickSort(data, head, tail, drawData, timeTick, sort, comprasions=None):
+	global comp
 	if comprasions == 0:
 		comp = comprasions
 

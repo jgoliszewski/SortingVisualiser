@@ -132,7 +132,7 @@ def startAlgorithm():
 		drawData(data, [green for x in range(len(data))], finished=True)
 
 	if selected_alg.get() == "Quick Sort":
-		quickSort(data, 0, len(data)-1, drawData, speedScale.get(), [])
+		quickSort(data, 0, len(data)-1, drawData, speedScale.get(), [], 0)
 		drawData(data, [green for x in range(len(data))], finished=True, comprasions=0)
 
 #frame loyout

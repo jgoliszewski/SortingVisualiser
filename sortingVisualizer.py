@@ -1,8 +1,8 @@
 from tkinter import *
 from tkinter import ttk
 import random
-from sortingAlgorithms import bubbleSort, bubbleSortPlus, quickSort
-
+from bubbleSort import bubbleSort, bubbleSortPlus
+from quickSort import quickSort
 root = Tk()
 root.title('Sorting Algorithm Visualiser')
 root.maxsize(900,600)
@@ -16,15 +16,17 @@ algorithms = [
 	'Quick Sort']
 selected_alg = StringVar()
 data = []
+comp = 0
 font = ('Arial',15)
 
 green = '#00e30b'
 orange = '#ffa500'
 ownData = IntVar()
 randomData = IntVar()
-choice = 1
+choice = 2
+
 #functions
-def drawData(data, colorArray, finished=False, pointer=-10, pivot=None, border=None):
+def drawData(data, colorArray, finished=False, pointer=-10, pivot=None, border=None, comprasions=0):
 	canvas.delete('all')
 	canvas_height = 380
 	canvas_width = 800
@@ -43,7 +45,7 @@ def drawData(data, colorArray, finished=False, pointer=-10, pivot=None, border=N
 
 		xp = pointer * x_width + offset + spacing
 		canvas.create_text(xp+x_width/2-30, 
-						23, 
+						26, 
 						anchor=SW, 
 						text='Pointer',
 						font=font)
@@ -54,26 +56,34 @@ def drawData(data, colorArray, finished=False, pointer=-10, pivot=None, border=N
 						anchor=SW, 
 						text=str(data[i]),
 						font=font)
-
+		if not finished:
+			comprasionCanvas.delete('all')
+			comprasionCanvas.create_text(
+				50,
+				34,
+				font=('Arial',35),
+				text=str(comprasions))
 	if pivot != None and border != None:
 		xp = pivot * x_width + offset + spacing
 		xb = border * x_width + offset + spacing
 		yp = canvas_height - normalizedData[pivot] * 320
 
-		canvas.create_text(xp+x_width/2-25, 
-						yp-30 if yp > 240 else yp + 30, 
-						anchor=SW, 
-						text='Pivot',
-						font=font)
-		canvas.create_text(xb+x_width/2-30, 
-						42, 
-						anchor=SW, 
-						text='Border',
-						font=font)
+		canvas.create_text(
+			xp+x_width/2-25, 
+			yp-30 if yp > 240 else yp + 30, 
+			anchor=SW, 
+			text='Pivot',
+			font=font)
+		canvas.create_text(
+			xb+x_width/2-30, 
+			43, 
+			anchor=SW, 
+			text='Border',
+			font=font)
 
 	if finished:
 		canvas.create_text(canvas_width//2, 
-						canvas_height//3, 
+						50, 
 						text='Finished!',
 						font=('Arial',50))
 
@@ -111,6 +121,8 @@ def Generate():
 
 def startAlgorithm():
 	global data
+	global comp
+	comp = 0
 	if selected_alg.get() == "Bubble Sort":
 		bubbleSort(data, drawData, speedScale.get(), [])
 		drawData(data, [green for x in range(len(data))], finished=True)
@@ -120,20 +132,44 @@ def startAlgorithm():
 		drawData(data, [green for x in range(len(data))], finished=True)
 
 	if selected_alg.get() == "Quick Sort":
-		quickSort(data, 0, len(data)-1, drawData, speedScale.get(),[])
-		drawData(data, [green for x in range(len(data))], finished=True)
-
+		quickSort(data, 0, len(data)-1, drawData, speedScale.get(), [])
+		drawData(data, [green for x in range(len(data))], finished=True, comprasions=0)
 
 #frame loyout
 UI_frame = Frame(root, 
 	width=800, 
 	height=200, 
-	bg='#a7a7a7')
-UI_frame.grid(row=0, column=0, padx=10, pady=5)
+	bg='#a7a7a7',
+	borderwidth=5,
+	relief=RIDGE)
+UI_frame.grid(row=0, column=0, padx=10, pady=5, sticky=W)
 
-canvas = Canvas(root, width=800, height=380, bg='#f2f2f2')
+canvas = Canvas(
+			root, 
+			width=800, 
+			height=380, 
+			bg='#f2f2f2', 
+			relief=RIDGE, 
+			bd=3)
 canvas.grid(row=1, column=0, padx=10, pady=5)
 
+comprasionCanvas = Canvas(
+					root, 
+					width=100, 
+					height=60, 
+					bg='#f2f2f2', 
+					relief=RIDGE, 
+					bd=2)
+comprasionCanvas.grid(row=0, column=0, padx=10, pady=5, sticky=E)
+
+comprasionsLabel = Label(
+	root, 
+	text='Comprasions:', 
+	bg='#a7a7a7', 
+	font=('Arail',17),
+	borderwidth=5,
+	relief=RIDGE)
+comprasionsLabel.grid(row=0, column=0, padx=5, pady=5, sticky=NE)
 #User Interface
 
 
@@ -165,27 +201,35 @@ Button(UI_frame,
 	justify='center',
 	command=startAlgorithm, 
 	bg='#00e30b',
+	relief=RIDGE,
+	bd=3
 	).grid(row=0, column=4, padx=5, pady=5)
 
 
 #Row[1]
-dataOwn = Entry(UI_frame, font=font)
+dataOwn = Entry(UI_frame, font=font, width=24)
 dataOwn.insert(END,'1, 2, 3 or 1,2,3 or 1 2 3 ')
 dataOwn.grid(row=0, columnspan=2, padx=5, pady=5, sticky=S)
 
-checkDataOwn = Checkbutton(UI_frame, 
+checkDataOwn = Checkbutton(
+					UI_frame, 
 					bg='#a7a7a7',
 					text='Your data', 
 					font=font, 
-					variable=ownData)
-checkDataOwn.grid(row=1, column=0, sticky=NW)
+					variable=ownData,
+					relief=RIDGE,
+					bd=3)
+checkDataOwn.grid(row=1, column=0, padx=5, pady=5, sticky=NW)
 
-checkDataRandom = Checkbutton(UI_frame, 
+checkDataRandom = Checkbutton(
+					UI_frame, 
 					bg='#a7a7a7', 
 					text='Random data', 
 					font=font, 
-					variable=randomData)
-checkDataRandom.grid(row=1, column=0, padx=1, pady=1, sticky=SW)
+					variable=randomData,
+					relief=RIDGE,
+					bd=3)
+checkDataRandom.grid(row=1, column=0, padx=5, pady=5, sticky=SW)
 checkDataRandom.select()
 
 
@@ -223,7 +267,9 @@ Button(UI_frame,
 	text="Generate", 
 	command=Generate, 
 	bg='#15b4ea', 
-	font=font
+	font=font,
+	relief=RIDGE,
+	bd=3
 	).grid(row=1, column=4, padx=5, pady=5)
 
 root.mainloop()

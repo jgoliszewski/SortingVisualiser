@@ -3,6 +3,8 @@ from tkinter import ttk
 import random
 from bubbleSort import bubbleSort, bubbleSortPlus
 from quickSort import quickSort
+from mergeSort import mergeSort
+
 root = Tk()
 root.title('Sorting Algorithm Visualiser')
 root.maxsize(900,600)
@@ -13,34 +15,38 @@ root.config(bg='#b3b3b3')
 algorithms = [
 	'Bubble Sort',
 	'Bubble Sort Plus',
-	'Quick Sort']
+	'Quick Sort',
+	'Merge Sort']
 selected_alg = StringVar()
-data = []
-comp = 0
-font = ('Arial',15)
-
-green = '#00e30b'
-orange = '#ffa500'
 ownData = IntVar()
 randomData = IntVar()
-choice = 2
+data = []
+comp = 0
+
+font = ('Arial',15)
+green = '#00e30b'
+orange = '#ffa500'
+choice = 0
 
 #functions
-def drawData(data, colorArray, finished=False, pointer=-10, pivot=None, border=None, comprasions=0):
+def drawData(data, colorArray, finished=False, pointer=-10, pivot=None, border=None, comprasions=0, maxValue=0):
 	canvas.delete('all')
 	canvas_height = 380
 	canvas_width = 800
 	x_width = (canvas_width) / (len(data) + 1)
 	spacing = 5
 	offset = x_width//2
-	normalizedData = [i / max(data) for i in data]
+	if maxValue == 0:
+		normalizedData = [i / max(data) for i in data]
+	else:
+		normalizedData = [i / maxValue for i in data]
 
 	for i, height in enumerate(normalizedData):
 		#top left
 		x0 = i * x_width + offset + spacing
 		y0 = canvas_height - height * 320
 		#bottom right
-		x1 = (i + 1) * x_width + offset
+		x1 = (i + 1) * x_width + offset 
 		y1 = canvas_height
 
 		xp = pointer * x_width + offset + spacing
@@ -134,6 +140,10 @@ def startAlgorithm():
 	if selected_alg.get() == "Quick Sort":
 		quickSort(data, 0, len(data)-1, drawData, speedScale.get(), [], 0)
 		drawData(data, [green for x in range(len(data))], finished=True, comprasions=0)
+
+	if selected_alg.get() == "Merge Sort":
+		mergeSort(data, drawData, speedScale.get(), max(data), 0)
+		drawData(data, [green for x in range(len(data))], finished=True)
 
 #frame loyout
 UI_frame = Frame(root, 
@@ -235,7 +245,7 @@ checkDataRandom.select()
 
 sizeEntry = Scale(UI_frame, 
 	from_=5, 
-	to=25, 
+	to=32, 
 	orient=HORIZONTAL, 
 	label='Data size', 
 	font=font,

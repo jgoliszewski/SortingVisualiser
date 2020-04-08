@@ -4,6 +4,7 @@ import random
 from bubbleSort import bubbleSort, bubbleSortPlus
 from quickSort import quickSort
 from mergeSort import mergeSort
+from insertionSort import insertionSort
 
 root = Tk()
 root.title('Sorting Algorithm Visualiser')
@@ -16,7 +17,8 @@ algorithms = [
 	'Bubble Sort',
 	'Bubble Sort Plus',
 	'Quick Sort',
-	'Merge Sort']
+	'Merge Sort',
+	'Insertion Sort']
 selected_alg = StringVar()
 ownData = IntVar()
 randomData = IntVar()
@@ -26,7 +28,7 @@ comp = 0
 font = ('Arial',15)
 green = '#00e30b'
 orange = '#ffa500'
-choice = 0
+choice = 4
 
 #functions
 def drawData(data, colorArray, finished=False, pointer=-10, pivot=None, border=None, comprasions=0, maxValue=0):
@@ -143,6 +145,9 @@ def startAlgorithm():
 
 	if selected_alg.get() == "Merge Sort":
 		mergeSort(data, drawData, speedScale.get(), max(data), 0)
+		drawData(data, [green for x in range(len(data))], finished=True)
+	if selected_alg.get() == "Insertion Sort":
+		insertionSort(data, drawData, speedScale.get())
 		drawData(data, [green for x in range(len(data))], finished=True)
 
 #frame loyout

@@ -1,5 +1,7 @@
 import time
 green = '#00e30b'
+orange = '#ffa500'
+
 def bubbleSort(data, drawData, timeTick, sort, comprasions=0):
 	for j in range(len(data)-1):
 		for i in range(len(data)-1):
@@ -36,16 +38,15 @@ def swapBubble(data, i, j, sort, drawData, timeTick, comprasions):
 	colors = []
 	for x in range(len(data)):
 		if x == i or x == j:
-			colors.append('orange')
+			colors.append(orange)
 		elif x in sort:
 			colors.append(green)
 		else:
 			colors.append('red')
 	time.sleep(timeTick/3)
 	drawData(data, colors, False, i, comprasions=comprasions)
-	data[i], data[i+1] = data[i+1], data[i]
+	data[i], data[j] = data[j], data[i]
 	time.sleep(timeTick/2)
 	drawData(data, colors, False, i, comprasions=comprasions)
 	time.sleep(timeTick/3)
-
 

@@ -1,5 +1,6 @@
 import time
 green = '#00e30b'
+orange = '#ffa500'
 
 comp = 0
 
@@ -8,12 +9,12 @@ def quickSortBorder(data, head, tail, drawData, timeTick, sort):
 	border = head
 	pivot = data[tail]
 	for i in range(head, tail):
-		drawData(data,[green if x in sort else 'red' for x in range(len(data))], False, i, tail, border, comprasions=comp)
+		drawData(data,[green if x in sort else orange for x in range(len(data))], False, i, tail, border, comprasions=comp)
 		time.sleep(timeTick/2)
 		comp += 1
 		if data[i] < pivot:
 			swapQuick(data, i, border, sort, drawData, timeTick, tail, border)
-			drawData(data,[green if x in sort else 'red' for x in range(len(data))], False, i, tail, border, comprasions=comp)
+			drawData(data,[green if x in sort else orange for x in range(len(data))], False, i, tail, border, comprasions=comp)
 			time.sleep(timeTick/2)
 			border += 1
 	
@@ -22,7 +23,7 @@ def quickSortBorder(data, head, tail, drawData, timeTick, sort):
 	if abs(tail - head) == 1:
 		sort.append(tail)
 
-	drawData(data,[green if x in sort else 'red' for x in range(len(data))], False, -10, tail, border, comprasions=comp)
+	drawData(data,[green if x in sort else orange for x in range(len(data))], False, -10, tail, border, comprasions=comp)
 	time.sleep(timeTick/2)
 
 	return border
@@ -42,7 +43,7 @@ def quickSort(data, head, tail, drawData, timeTick, sort, comprasions=None):
 
 def swapQuick(data, i, j, sort, drawData, timeTick, tail, border, pivotSwaping=False):
 	colors = []
-	color = '#15b4ea' if pivotSwaping else 'orange'
+	color = '#15b4ea' if pivotSwaping else 'red'
 
 	for x in range(len(data)):
 		if x in sort:
@@ -50,7 +51,7 @@ def swapQuick(data, i, j, sort, drawData, timeTick, tail, border, pivotSwaping=F
 		elif x == i or x == j:
 			colors.append(color)
 		else:
-			colors.append('red')
+			colors.append(orange)
 
 	drawData(data, colors, False, i, tail, border, comprasions=comp)
 	time.sleep(timeTick/2)

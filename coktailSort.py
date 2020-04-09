@@ -9,19 +9,21 @@ def coktailSort(data, drawData, timeTick, sort, comprasions=0):
 	swaped = True
 	for i in range(len(data)//2+1):
 		if swaped:
-			swaped = False
-			while k < right-1-i:
-				colors = colorArray(len(data), k, sort)
-				drawData(data, colors, False, k, comprasions=comprasions)
-				time.sleep(timeTick/2)
-				comprasions += 1
-				if data[k] > data[k+1]:
-					swap(data, k, k+1, sort, drawData, timeTick, comprasions)
-					swaped = True
-				k += 1
+			if swaped:
+				swaped = False
+				while k < right-1-i:
+					colors = colorArray(len(data), k, sort)
+					drawData(data, colors, False, k, comprasions=comprasions)
+					time.sleep(timeTick/2)
+					comprasions += 1
+					if data[k] > data[k+1]:
+						swap(data, k, k+1, sort, drawData, timeTick, comprasions)
+						swaped = True
+					k += 1
 			sort.append(len(data)-i-1)
 			k -= 1
 			if swaped:
+				swaped = False
 				while k > left+i:
 					colors = colorArray(len(data), k, sort)
 					drawData(data, colors, False, k, comprasions=comprasions)

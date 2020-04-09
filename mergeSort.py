@@ -19,7 +19,7 @@ def mergeSortAlg(data, left, right, drawData, timeTick, maxValue):
 def merge(data, left, mid, right, drawData, timeTick, maxValue):
 	global comp
 	drawData(data, [orange if x >= left and x <= right else 'gray' for x in range(len(data))], maxValue=maxValue, comprasions=comp)
-	time.sleep(timeTick/3)
+	time.sleep(timeTick/4)
 
 	leftData = data[left:mid+1]
 	rightData = data[mid+1:right+1]
@@ -36,7 +36,7 @@ def merge(data, left, mid, right, drawData, timeTick, maxValue):
 				data[idx] = rightData[rightIdx]
 				rightIdx += 1
 			drawData(data, [orange if x >= left and x <= right else 'gray' for x in range(len(data))], maxValue=maxValue, comprasions=comp)
-			time.sleep(timeTick/3)
+			time.sleep(timeTick/4)
 
 		elif leftIdx < len(leftData):
 			data[idx] = leftData[leftIdx]
@@ -46,6 +46,6 @@ def merge(data, left, mid, right, drawData, timeTick, maxValue):
 			data[idx] = rightData[rightIdx]
 			rightIdx += 1
 		drawData(data, [orange if x >= left and x <= right else 'gray' for x in range(len(data))], maxValue=maxValue, comprasions=comp)
-		time.sleep(timeTick/3)
+		time.sleep(timeTick/4)
 	drawData(data, [orange if x >= left and x <= right else 'gray' for x in range(len(data))], maxValue=maxValue, comprasions=comp)
-	time.sleep(timeTick/3)
+	time.sleep(timeTick/4)

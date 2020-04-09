@@ -10,7 +10,7 @@ def bubbleSort(data, drawData, timeTick, sort, comprasions=0):
 			if data[i] > data[i+1]:
 				swapBubble(data, i, i+1, sort, drawData, timeTick, comprasions)
 				drawData(data, [green if x in sort else 'red' for x in range(len(data))], False, i, comprasions=comprasions)
-				time.sleep(timeTick/2)
+				time.sleep(timeTick/4)
 			else:
 				time.sleep(timeTick)
 			drawData(data, [green if x in sort else 'red' for x in range(len(data))], False, i, comprasions=comprasions)
@@ -28,7 +28,7 @@ def bubbleSortPlus(data, drawData, timeTick, sort, comprasions=0):
 					swap = True
 					swapBubble(data, i, i+1, sort, drawData, timeTick, comprasions)
 					drawData(data, [green if x in sort else 'red' for x in range(len(data))],False, i, comprasions=comprasions)
-					time.sleep(timeTick/2)
+					time.sleep(timeTick/4)
 				else:
 					time.sleep(timeTick)
 					drawData(data, [green if x in sort else 'red' for x in range(len(data))],False, i, comprasions=comprasions)
@@ -43,10 +43,10 @@ def swapBubble(data, i, j, sort, drawData, timeTick, comprasions):
 			colors.append(green)
 		else:
 			colors.append('red')
-	time.sleep(timeTick/3)
+	time.sleep(timeTick/4)
 	drawData(data, colors, False, i, comprasions=comprasions)
 	data[i], data[j] = data[j], data[i]
-	time.sleep(timeTick/2)
+	time.sleep(timeTick/4)
 	drawData(data, colors, False, i, comprasions=comprasions)
-	time.sleep(timeTick/3)
+	time.sleep(timeTick/4)
 

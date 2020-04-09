@@ -10,12 +10,12 @@ def quickSortBorder(data, head, tail, drawData, timeTick, sort):
 	pivot = data[tail]
 	for i in range(head, tail):
 		drawData(data,[green if x in sort else orange for x in range(len(data))], False, i, tail, border, comprasions=comp)
-		time.sleep(timeTick/2)
+		time.sleep(timeTick/4)
 		comp += 1
 		if data[i] < pivot:
 			swapQuick(data, i, border, sort, drawData, timeTick, tail, border)
 			drawData(data,[green if x in sort else orange for x in range(len(data))], False, i, tail, border, comprasions=comp)
-			time.sleep(timeTick/2)
+			time.sleep(timeTick/4)
 			border += 1
 	
 	swapQuick(data, tail, border, sort, drawData, timeTick, tail, border, True)
@@ -24,7 +24,7 @@ def quickSortBorder(data, head, tail, drawData, timeTick, sort):
 		sort.append(tail)
 
 	drawData(data,[green if x in sort else orange for x in range(len(data))], False, -10, tail, border, comprasions=comp)
-	time.sleep(timeTick/2)
+	time.sleep(timeTick/4)
 
 	return border
 
@@ -54,7 +54,7 @@ def swapQuick(data, i, j, sort, drawData, timeTick, tail, border, pivotSwaping=F
 			colors.append(orange)
 
 	drawData(data, colors, False, i, tail, border, comprasions=comp)
-	time.sleep(timeTick/2)
+	time.sleep(timeTick/4)
 	data[i], data[j] = data[j], data[i]
 	drawData(data, colors, False, i, tail, border, comprasions=comp)
-	time.sleep(timeTick/2)
+	time.sleep(timeTick/4)

@@ -6,7 +6,7 @@ from quickSort import quickSort
 from mergeSort import mergeSort
 from insertionSort import insertionSort
 from selectionSort import selectionSort
-
+from coktailSort import coktailSort
 root = Tk()
 root.title('Sorting Algorithm Visualiser')
 root.geometry('900x630')
@@ -162,6 +162,12 @@ def selection():
 	selectionSort(data, drawData, speedScale.get(), [])
 	drawData(data, [green for x in range(len(data))], finished=True)
 
+def coktail():
+	global data
+	global comp
+	coktailSort(data, drawData, speedScale.get(), [])
+	drawData(data, [green for x in range(len(data))], finished=True)
+
 #frame loyout
 UI_frame = Frame(
 	root, 
@@ -221,8 +227,8 @@ comprasionCanvas.grid(
 # scales
 speedScale = Scale(
 	UI_frame,
-	from_=0.1,
-	to=5.0,
+	from_=0,
+	to=5,
 	length=200,
 	digits=2, 
 	resolution=0.1,
@@ -244,7 +250,7 @@ speedScale.grid(
 sizeEntry = Scale(
 	UI_frame, 
 	from_=5, 
-	to=32, 
+	to=64, 
 	orient=HORIZONTAL, 
 	label='Data size', 
 	font=font,
@@ -368,7 +374,7 @@ Button(
 	algorithms_frame, 
 	text="Bubble", 
 	command=bubble, 
-	bg='#15b4ea', 
+	bg='#ff0000', 
 	font=font,
 	relief=RIDGE,
 	bd=3,
@@ -377,31 +383,31 @@ Button(
 
 Button(
 	algorithms_frame, 
-	text="Bubble+", 
-	command=bubblePlus, 
-	bg='#15b4ea', 
+	text="Selection", 
+	command=selection, 
+	bg='#ebf100', 
 	font=font,
 	relief=RIDGE,
 	bd=3,
 	justify=RIGHT,
-	).grid(row=0, column=1, padx=5, pady=5)
+	).grid(row=0, column=1, padx=5, pady=5, sticky=EW)
 
 Button(
 	algorithms_frame, 
-	text="Selection", 
-	command=selection, 
-	bg='#15b4ea', 
+	text="Bubble+", 
+	command=bubblePlus, 
+	bg='#ebf100', 
 	font=font,
 	relief=RIDGE,
 	bd=3,
 	justify=RIGHT,
-	).grid(row=0, column=2, padx=5, pady=5, sticky=EW)
+	).grid(row=0, column=2, padx=5, pady=5)
 
 Button(
 	algorithms_frame, 
 	text="Insertion", 
 	command=insertion, 
-	bg='#15b4ea', 
+	bg='#ebf100', 
 	font=font,
 	relief=RIDGE,
 	bd=3,
@@ -410,23 +416,34 @@ Button(
 
 Button(
 	algorithms_frame, 
-	text="Merge", 
-	command=merge, 
-	bg='#15b4ea', 
+	text="Coktail", 
+	command=coktail, 
+	bg='#ebf100', 
 	font=font,
 	relief=RIDGE,
 	bd=3,
 	justify=RIGHT,
-	).grid(row=0, column=4, padx=5, pady=5)
+	).grid(row=0, column=4, padx=5, pady=5, sticky=EW)
+
+Button(
+	algorithms_frame, 
+	text="Merge", 
+	command=merge, 
+	bg='#96ec00', 
+	font=font,
+	relief=RIDGE,
+	bd=3,
+	justify=RIGHT,
+	).grid(row=0, column=5, padx=5, pady=5)
 
 Button(
 	algorithms_frame, 
 	text="Quick", 
 	command=quick, 
-	bg='#15b4ea', 
+	bg='#1ce500', 
 	font=font,
 	relief=RIDGE,
 	bd=3,
 	justify=RIGHT,
-	).grid(row=0, column=5, padx=5, pady=5, sticky=EW)
+	).grid(row=0, column=6, padx=5, pady=5, sticky=EW)
 root.mainloop()

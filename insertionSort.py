@@ -15,6 +15,7 @@ def insertionSort(data, drawData, timeTick, comprasions=0):
 				colors = colorArray(len(data), idx, j)
 				drawData(data, colors, pointer=idx, comprasions=comprasions)
 				time.sleep(timeTick/3)
+				drawData(data, colors, pointer=idx, comprasions=comprasions)
 			else:
 				time.sleep(timeTick/4)
 
@@ -22,7 +23,8 @@ def insertionSort(data, drawData, timeTick, comprasions=0):
 
 def swap(data, i, j, k, drawData, timeTick, comprasions):
 
-	colors = colorArray(len(data), i, k)
+	colors = colorArray(len(data), i, k, j)
+
 	time.sleep(timeTick/3)
 	drawData(data, colors, False, i, comprasions=comprasions)
 	data[i], data[j] = data[j], data[i]
@@ -30,10 +32,10 @@ def swap(data, i, j, k, drawData, timeTick, comprasions):
 	drawData(data, colors, False, i, comprasions=comprasions)
 
 
-def colorArray(lenData,idx, j):
+def colorArray(lenData,idx, j, i=None):
 	colors = []
 	for x in range(lenData):
-		if x == idx:
+		if x == idx or x ==i:
 			colors.append("red")
 		elif x >j:
 			colors.append("gray")

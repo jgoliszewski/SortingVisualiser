@@ -14,26 +14,19 @@ def insertionSort(data, drawData, timeTick, comprasions=0):
 				idx -= 1
 				colors = colorArray(len(data), idx, j)
 				drawData(data, colors, pointer=idx, comprasions=comprasions)
-				time.sleep(timeTick/3)
+				time.sleep(timeTick/6)
 			else:
 				break
 
 
 
 def swap(data, i, j, k, drawData, timeTick, comprasions):
-	'''colors = []
-	for x in range(len(data)):
-		if x == i:
-			colors.append('orange')
-		elif x > k:
-			colors.append("gray")
-		else:
-			colors.append('red')'''
+
 	colors = colorArray(len(data), i, k)
-	time.sleep(timeTick/5)
+	time.sleep(timeTick/10)
 	drawData(data, colors, False, i, comprasions=comprasions)
 	data[i], data[j] = data[j], data[i]
-	time.sleep(timeTick/5)
+	time.sleep(timeTick/10)
 	drawData(data, colors, False, i, comprasions=comprasions)
 
 

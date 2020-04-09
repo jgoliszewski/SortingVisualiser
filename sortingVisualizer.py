@@ -8,6 +8,7 @@ from insertionSort import insertionSort
 
 root = Tk()
 root.title('Sorting Algorithm Visualiser')
+root.geometry('900x600')
 root.maxsize(900,600)
 root.config(bg='#b3b3b3')
 
@@ -16,12 +17,13 @@ root.config(bg='#b3b3b3')
 algorithms = [
 	'Bubble Sort',
 	'Bubble Sort Plus',
-	'Quick Sort',
+	'Insertion Sort',
 	'Merge Sort',
-	'Insertion Sort']
+	'Quick Sort',]
 selected_alg = StringVar()
 ownData = IntVar()
 randomData = IntVar()
+stairsData = IntVar()
 data = []
 comp = 0
 
@@ -34,7 +36,7 @@ choice = 4
 def drawData(data, colorArray, finished=False, pointer=-10, pivot=None, border=None, comprasions=0, maxValue=0):
 	canvas.delete('all')
 	canvas_height = 380
-	canvas_width = 800
+	canvas_width = 870
 	x_width = (canvas_width) / (len(data) + 1)
 	spacing = 5
 	offset = x_width//2
@@ -105,9 +107,6 @@ def Generate():
 	data = []
 
 	if ownData.get():
-		checkDataRandom.deselect()
-	
-	if ownData.get():
 		try:
 			data = [int(x) for x in dataOwn.get().split(', ')]
 		except:
@@ -124,6 +123,11 @@ def Generate():
 		for _ in range(size):
 			data.append(random.randrange(minVal, maxVal + 1))
 
+	if stairsData.get():	
+		for i in range(size):
+			data.append(i+1)
+		random.shuffle(data)
+
 	if data:
 		drawData(data, ['red' for x in range(len(data))])
 
@@ -139,43 +143,46 @@ def startAlgorithm():
 		bubbleSortPlus(data, drawData, speedScale.get(), [])
 		drawData(data, [green for x in range(len(data))], finished=True)
 
-	if selected_alg.get() == "Quick Sort":
-		quickSort(data, 0, len(data)-1, drawData, speedScale.get(), [], 0)
-		drawData(data, [green for x in range(len(data))], finished=True, comprasions=0)
-
-	if selected_alg.get() == "Merge Sort":
-		mergeSort(data, drawData, speedScale.get(), max(data), 0)
-		drawData(data, [green for x in range(len(data))], finished=True)
 	if selected_alg.get() == "Insertion Sort":
 		insertionSort(data, drawData, speedScale.get())
 		drawData(data, [green for x in range(len(data))], finished=True)
 
+	if selected_alg.get() == "Merge Sort":
+		mergeSort(data, drawData, speedScale.get(), max(data), 0)
+		drawData(data, [green for x in range(len(data))], finished=True)
+
+	if selected_alg.get() == "Quick Sort":
+		quickSort(data, 0, len(data)-1, drawData, speedScale.get(), [], 0)
+		drawData(data, [green for x in range(len(data))], finished=True, comprasions=0)
+
+
+
 #frame loyout
 UI_frame = Frame(root, 
-	width=800, 
+	width=1000, 
 	height=200, 
 	bg='#a7a7a7',
 	borderwidth=5,
 	relief=RIDGE)
-UI_frame.grid(row=0, column=0, padx=10, pady=5, sticky=W)
+UI_frame.grid(row=0, column=0, padx=10, pady=5)
 
 canvas = Canvas(
 			root, 
-			width=800, 
+			width=870, 
 			height=380, 
 			bg='#f2f2f2', 
 			relief=RIDGE, 
 			bd=3)
-canvas.grid(row=1, column=0, padx=10, pady=5)
+canvas.grid(row=1, column=0, padx=10, pady=5, sticky=E)
 
 comprasionCanvas = Canvas(
-					root, 
+					UI_frame, 
 					width=100, 
 					height=60, 
 					bg='#f2f2f2', 
 					relief=RIDGE, 
 					bd=2)
-comprasionCanvas.grid(row=0, column=0, padx=10, pady=5, sticky=E)
+comprasionCanvas.grid(row=0, column=0, padx=5, pady=5, sticky=W)
 
 comprasionsLabel = Label(
 	root, 
@@ -193,7 +200,7 @@ algMenu = ttk.Combobox(UI_frame,
 					font = font,
 					textvariable=selected_alg, 
 					values=[alg for alg in algorithms])
-algMenu.grid(row=0, columnspan=2, padx=5, pady=5, sticky=N)
+algMenu.grid(row=0, rowspan=2, columnspan=2, padx=5, pady=5, sticky=N)
 algMenu.current(choice)
 
 speedScale = Scale(UI_frame,
@@ -208,7 +215,7 @@ speedScale = Scale(UI_frame,
 				relief='groove',
 				bg='white',
 				highlightbackground='black')
-speedScale.grid(row=0, column=2, columnspan=2, padx=5, pady=5)
+speedScale.grid(row=2, column=4, columnspan=2, padx=5, pady=5)
 
 Button(UI_frame, 
 	text="    Start    ", 
@@ -222,9 +229,9 @@ Button(UI_frame,
 
 
 #Row[1]
-dataOwn = Entry(UI_frame, font=font, width=24)
+dataOwn = Entry(UI_frame, font=font, width=30)
 dataOwn.insert(END,'1, 2, 3 or 1,2,3 or 1 2 3 ')
-dataOwn.grid(row=0, columnspan=2, padx=5, pady=5, sticky=S)
+dataOwn.grid(row=1, columnspan=3,column=1,  padx=5, pady=5, sticky=N)
 
 checkDataOwn = Checkbutton(
 					UI_frame, 
@@ -234,7 +241,7 @@ checkDataOwn = Checkbutton(
 					variable=ownData,
 					relief=RIDGE,
 					bd=3)
-checkDataOwn.grid(row=1, column=0, padx=5, pady=5, sticky=NW)
+checkDataOwn.grid(row=1, column=0, padx=5, pady=5, sticky=W)
 
 checkDataRandom = Checkbutton(
 					UI_frame, 
@@ -244,8 +251,19 @@ checkDataRandom = Checkbutton(
 					variable=randomData,
 					relief=RIDGE,
 					bd=3)
-checkDataRandom.grid(row=1, column=0, padx=5, pady=5, sticky=SW)
+checkDataRandom.grid(row=2, column=0, padx=5, pady=5, sticky=W)
 checkDataRandom.select()
+
+checkDataStairs = Checkbutton(
+					UI_frame, 
+					bg='#a7a7a7', 
+					text='Stairs data', 
+					font=font, 
+					variable=stairsData,
+					relief=RIDGE,
+					bd=3)
+checkDataStairs.grid(row=3, column=0, padx=5, pady=5, sticky=W)
+
 
 
 sizeEntry = Scale(UI_frame, 
@@ -256,7 +274,7 @@ sizeEntry = Scale(UI_frame,
 	font=font,
 	bg='white',
 	highlightbackground='black')
-sizeEntry.grid(row=1, column=1, padx=5, pady=5, sticky=E)
+sizeEntry.grid(row=2, rowspan=2, column=1, padx=5, pady=5, sticky=N)
 
 minEntry = Scale(UI_frame, 
 	from_=0, 
@@ -266,7 +284,7 @@ minEntry = Scale(UI_frame,
 	font=font,
 	bg='white',
 	highlightbackground='black')
-minEntry.grid(row=1, column=2, padx=5, pady=5, sticky=E)
+minEntry.grid(row=2, rowspan=2, column=2, padx=5, pady=5, sticky=N)
 
 maxEntry = Scale(UI_frame, 
 	from_=10, 
@@ -276,7 +294,7 @@ maxEntry = Scale(UI_frame,
 	font=font,
 	bg='white',
 	highlightbackground='black')
-maxEntry.grid(row=1, column=3, padx=5, pady=5)
+maxEntry.grid(row=2, rowspan=2, column=3, padx=5, pady=5, sticky=N)
 
 Button(UI_frame, 
 	text="Generate", 
@@ -285,6 +303,6 @@ Button(UI_frame,
 	font=font,
 	relief=RIDGE,
 	bd=3
-	).grid(row=1, column=4, padx=5, pady=5)
+	).grid(row=4, column=0, padx=5, pady=5)
 
 root.mainloop()

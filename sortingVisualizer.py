@@ -8,8 +8,8 @@ from insertionSort import insertionSort
 
 root = Tk()
 root.title('Sorting Algorithm Visualiser')
-root.geometry('900x600')
-root.maxsize(900,600)
+root.geometry('900x630')
+root.maxsize(900,630)
 root.config(bg='#b3b3b3')
 
 
@@ -131,41 +131,51 @@ def Generate():
 	if data:
 		drawData(data, ['red' for x in range(len(data))])
 
-def startAlgorithm():
+def bubble():
 	global data
 	global comp
-	comp = 0
-	if selected_alg.get() == "Bubble Sort":
-		bubbleSort(data, drawData, speedScale.get(), [])
-		drawData(data, [green for x in range(len(data))], finished=True)
-		
-	if selected_alg.get() == "Bubble Sort Plus":
-		bubbleSortPlus(data, drawData, speedScale.get(), [])
-		drawData(data, [green for x in range(len(data))], finished=True)
+	bubbleSort(data, drawData, speedScale.get(), [])
+	drawData(data, [green for x in range(len(data))], finished=True)
 
-	if selected_alg.get() == "Insertion Sort":
-		insertionSort(data, drawData, speedScale.get())
-		drawData(data, [green for x in range(len(data))], finished=True)
+def bubblePlus():
+	global data
+	global comp
+	bubbleSortPlus(data, drawData, speedScale.get(), [])
+	drawData(data, [green for x in range(len(data))], finished=True)
 
-	if selected_alg.get() == "Merge Sort":
-		mergeSort(data, drawData, speedScale.get(), max(data), 0)
-		drawData(data, [green for x in range(len(data))], finished=True)
+def insertion():
+	global data
+	global comp
+	insertionSort(data, drawData, speedScale.get())
+	drawData(data, [green for x in range(len(data))], finished=True)
 
-	if selected_alg.get() == "Quick Sort":
-		quickSort(data, 0, len(data)-1, drawData, speedScale.get(), [], 0)
-		drawData(data, [green for x in range(len(data))], finished=True, comprasions=0)
+def merge():
+	global data
+	global comp
+	mergeSort(data, drawData, speedScale.get(), max(data), 0)
+	drawData(data, [green for x in range(len(data))], finished=True)
 
-
+def quick():
+	global data
+	global comp
+	quickSort(data, 0, len(data)-1, drawData, speedScale.get(), [], 0)
+	drawData(data, [green for x in range(len(data))], finished=True)
 
 #frame loyout
-UI_frame = Frame(root, 
-	width=1000, 
-	height=200, 
-	bg='#a7a7a7',
-	borderwidth=5,
-	relief=RIDGE)
-UI_frame.grid(row=0, column=0, padx=10, pady=5)
+UI_frame = Frame(
+			root, 
+			width=1000, 
+			bg='#a7a7a7',
+			borderwidth=5,
+			relief=RIDGE)
+UI_frame.grid(row=0, column=0,columnspan=2, padx=10, pady=2)
 
+algorithms_frame = Frame(
+					root, 
+					bg='#a7a7a7',
+					borderwidth=5,
+					relief=RIDGE)
+algorithms_frame.grid(row=1, column=0, columnspan=2, padx=10, pady=2, sticky=W)
 canvas = Canvas(
 			root, 
 			width=870, 
@@ -173,37 +183,20 @@ canvas = Canvas(
 			bg='#f2f2f2', 
 			relief=RIDGE, 
 			bd=3)
-canvas.grid(row=1, column=0, padx=10, pady=5, sticky=E)
+canvas.grid(row=2, column=0, columnspan=2, padx=10, pady=2, sticky=N)
 
 comprasionCanvas = Canvas(
-					UI_frame, 
+					root, 
 					width=100, 
 					height=60, 
 					bg='#f2f2f2', 
 					relief=RIDGE, 
-					bd=2)
-comprasionCanvas.grid(row=0, column=0, padx=5, pady=5, sticky=W)
+					bd=3)
+comprasionCanvas.grid(row=1, column=1, padx=10, pady=2, sticky=E)
 
-comprasionsLabel = Label(
-	root, 
-	text='Comprasions:', 
-	bg='#a7a7a7', 
-	font=('Arail',17),
-	borderwidth=5,
-	relief=RIDGE)
-comprasionsLabel.grid(row=0, column=0, padx=5, pady=5, sticky=NE)
-#User Interface
-
-
-#Row[0]
-algMenu = ttk.Combobox(UI_frame, 
-					font = font,
-					textvariable=selected_alg, 
-					values=[alg for alg in algorithms])
-algMenu.grid(row=0, rowspan=2, columnspan=2, padx=5, pady=5, sticky=N)
-algMenu.current(choice)
-
-speedScale = Scale(UI_frame,
+# scales
+speedScale = Scale(
+				UI_frame,
 				from_=0.1,
 				to=3.0,
 				length=200,
@@ -215,24 +208,47 @@ speedScale = Scale(UI_frame,
 				relief='groove',
 				bg='white',
 				highlightbackground='black')
-speedScale.grid(row=2, column=4, columnspan=2, padx=5, pady=5)
+speedScale.grid(row=0, rowspan=2, column=4, columnspan=2, padx=5, pady=5, sticky=N)
 
-Button(UI_frame, 
-	text="    Start    ", 
-	font=font,
-	justify='center',
-	command=startAlgorithm, 
-	bg='#00e30b',
-	relief=RIDGE,
-	bd=3
-	).grid(row=0, column=4, padx=5, pady=5)
+sizeEntry = Scale(
+				UI_frame, 
+				from_=5, 
+				to=32, 
+				orient=HORIZONTAL, 
+				label='Data size', 
+				font=font,
+				bg='white',
+				highlightbackground='black')
+sizeEntry.grid(row=0, rowspan=2, column=1, padx=5, pady=5, sticky=N)
 
+minEntry = Scale(
+				UI_frame, 
+				from_=0, 
+				to=10, 
+				orient=HORIZONTAL, 
+				label='Min Value',
+				font=font,
+				bg='white',
+				highlightbackground='black')
+minEntry.grid(row=0, rowspan=2, column=2, padx=5, pady=5, sticky=N)
 
-#Row[1]
+maxEntry = Scale(
+				UI_frame, 
+				from_=10, 
+				to=100, 
+				orient=HORIZONTAL, 
+				label='Max Value',
+				font=font,
+				bg='white',
+				highlightbackground='black')
+maxEntry.grid(row=0, rowspan=2, column=3, padx=5, pady=5, sticky=N)
+
+# entry
 dataOwn = Entry(UI_frame, font=font, width=30)
 dataOwn.insert(END,'1, 2, 3 or 1,2,3 or 1 2 3 ')
-dataOwn.grid(row=1, columnspan=3,column=1,  padx=5, pady=5, sticky=N)
+dataOwn.grid(row=2, columnspan=3,column=1,  padx=5, pady=5)
 
+# checkbuttons
 checkDataOwn = Checkbutton(
 					UI_frame, 
 					bg='#a7a7a7',
@@ -241,7 +257,7 @@ checkDataOwn = Checkbutton(
 					variable=ownData,
 					relief=RIDGE,
 					bd=3)
-checkDataOwn.grid(row=1, column=0, padx=5, pady=5, sticky=W)
+checkDataOwn.grid(row=2, column=0, padx=5, pady=5, sticky=W)
 
 checkDataRandom = Checkbutton(
 					UI_frame, 
@@ -251,7 +267,7 @@ checkDataRandom = Checkbutton(
 					variable=randomData,
 					relief=RIDGE,
 					bd=3)
-checkDataRandom.grid(row=2, column=0, padx=5, pady=5, sticky=W)
+checkDataRandom.grid(row=0, column=0, padx=5, pady=5, sticky=W)
 checkDataRandom.select()
 
 checkDataStairs = Checkbutton(
@@ -262,47 +278,72 @@ checkDataStairs = Checkbutton(
 					variable=stairsData,
 					relief=RIDGE,
 					bd=3)
-checkDataStairs.grid(row=3, column=0, padx=5, pady=5, sticky=W)
+checkDataStairs.grid(row=1, column=0, padx=5, pady=5, sticky=W)
 
-
-
-sizeEntry = Scale(UI_frame, 
-	from_=5, 
-	to=32, 
-	orient=HORIZONTAL, 
-	label='Data size', 
-	font=font,
-	bg='white',
-	highlightbackground='black')
-sizeEntry.grid(row=2, rowspan=2, column=1, padx=5, pady=5, sticky=N)
-
-minEntry = Scale(UI_frame, 
-	from_=0, 
-	to=10, 
-	orient=HORIZONTAL, 
-	label='Min Value',
-	font=font,
-	bg='white',
-	highlightbackground='black')
-minEntry.grid(row=2, rowspan=2, column=2, padx=5, pady=5, sticky=N)
-
-maxEntry = Scale(UI_frame, 
-	from_=10, 
-	to=100, 
-	orient=HORIZONTAL, 
-	label='Max Value',
-	font=font,
-	bg='white',
-	highlightbackground='black')
-maxEntry.grid(row=2, rowspan=2, column=3, padx=5, pady=5, sticky=N)
-
-Button(UI_frame, 
+# buttons
+Button(
+	UI_frame, 
 	text="Generate", 
 	command=Generate, 
 	bg='#15b4ea', 
 	font=font,
 	relief=RIDGE,
-	bd=3
-	).grid(row=4, column=0, padx=5, pady=5)
+	bd=3,
+	justify=RIGHT,
+	).grid(row=2, column=4,columnspan=2, padx=5, pady=5, sticky=EW)
 
+Button(
+	algorithms_frame, 
+	text="Bubble", 
+	command=bubble, 
+	bg='#15b4ea', 
+	font=font,
+	relief=RIDGE,
+	bd=3,
+	justify=RIGHT,
+	).grid(row=0, column=0, padx=5, pady=5)
+
+Button(
+	algorithms_frame, 
+	text="Bubble+", 
+	command=bubblePlus, 
+	bg='#15b4ea', 
+	font=font,
+	relief=RIDGE,
+	bd=3,
+	justify=RIGHT,
+	).grid(row=0, column=1, padx=5, pady=5)
+
+Button(
+	algorithms_frame, 
+	text="Insertion", 
+	command=insertion, 
+	bg='#15b4ea', 
+	font=font,
+	relief=RIDGE,
+	bd=3,
+	justify=RIGHT,
+	).grid(row=0, column=2, padx=5, pady=5)
+
+Button(
+	algorithms_frame, 
+	text="Merge", 
+	command=merge, 
+	bg='#15b4ea', 
+	font=font,
+	relief=RIDGE,
+	bd=3,
+	justify=RIGHT,
+	).grid(row=0, column=3, padx=5, pady=5)
+
+Button(
+	algorithms_frame, 
+	text="Quick", 
+	command=quick, 
+	bg='#15b4ea', 
+	font=font,
+	relief=RIDGE,
+	bd=3,
+	justify=RIGHT,
+	).grid(row=0, column=4, padx=5, pady=5, sticky=EW)
 root.mainloop()

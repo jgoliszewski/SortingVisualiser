@@ -48,4 +48,4 @@ def merge(data, left, mid, right, drawData, timeTick, maxValue):
 		drawData(data, [orange if x >= left and x <= right else 'gray' for x in range(len(data))], maxValue=maxValue, comprasions=comp)
 		time.sleep(timeTick/4)
 	drawData(data, [orange if x >= left and x <= right else 'gray' for x in range(len(data))], maxValue=maxValue, comprasions=comp)
-	time.sleep(timeTick/4)
+	time.sleep(timeTick/6)

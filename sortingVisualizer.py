@@ -7,6 +7,8 @@ from mergeSort import mergeSort
 from insertionSort import insertionSort
 from selectionSort import selectionSort
 from coktailSort import coktailSort
+from bucketSort import bucketSort
+
 root = Tk()
 root.title('Sorting Algorithm Visualiser')
 root.geometry('900x630')
@@ -125,7 +127,28 @@ def Generate():
 
 	if data:
 		drawData(data, ['red' for x in range(len(data))])
+'''
+def startAlgorithm(alg):
+	print(alg)
+	if alg == 'bubble':
+		bubbleSort(data, drawData, speedScale.get(), [])
 
+	elif alg == 'bubblePlus':
+		bubbleSortPlus(data, drawData, speedScale.get(), [])
+	elif alg == 'insertion':
+		insertionSort(data, drawData, speedScale.get())
+	elif alg == 'selection':
+		selectionSort(data, drawData, speedScale.get(), [])
+	elif alg == 'coktail':
+		coktailSort(data, drawData, speedScale.get(), [])
+	elif alg == 'merge':
+		mergeSort(data, drawData, speedScale.get(), max(data), 0)
+	elif alg == 'quick':
+		quickSort(data, 0, len(data)-1, drawData, speedScale.get(), [], 0)
+	elif alg == 'bucket':
+		bucketSort(data, drawData, speedScale.get())
+	drawData(data, [green for x in range(len(data))], finished=True)
+'''
 def bubble():
 	global data
 	global comp
@@ -166,6 +189,12 @@ def coktail():
 	global data
 	global comp
 	coktailSort(data, drawData, speedScale.get(), [])
+	drawData(data, [green for x in range(len(data))], finished=True)
+
+def bucket():
+	global data
+	global comp
+	bucketSort(data, drawData, speedScale.get())
 	drawData(data, [green for x in range(len(data))], finished=True)
 
 #frame loyout
@@ -385,7 +414,7 @@ Button(
 	algorithms_frame, 
 	text="Selection", 
 	command=selection, 
-	bg='#ebf100', 
+	bg='#f87500', 
 	font=font,
 	relief=RIDGE,
 	bd=3,
@@ -423,7 +452,7 @@ Button(
 	relief=RIDGE,
 	bd=3,
 	justify=RIGHT,
-	).grid(row=0, column=4, padx=5, pady=5, sticky=EW)
+	).grid(row=0, column=4, padx=5, pady=5)
 
 Button(
 	algorithms_frame, 
@@ -445,5 +474,16 @@ Button(
 	relief=RIDGE,
 	bd=3,
 	justify=RIGHT,
-	).grid(row=0, column=6, padx=5, pady=5, sticky=EW)
+	).grid(row=0, column=6, padx=5, pady=5)
+
+Button(
+	algorithms_frame, 
+	text="Bucket", 
+	command=bucket, 
+	bg='#1ce500', 
+	font=font,
+	relief=RIDGE,
+	bd=3,
+	justify=RIGHT,
+	).grid(row=0, column=7, padx=5, pady=5)
 root.mainloop()
